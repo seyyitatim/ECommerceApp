@@ -22,6 +22,7 @@ namespace ECommerce.Persistence.Repositories
 
         public DbSet<T> Table => _context.Set<T>();
 
+        // tracking dbden dönen nesnelerin takip edilip edilmemesini sağlayan mekanizma
         public IQueryable<T> GetAll(bool tracking = false)
         {
             var query = Table.AsQueryable();
