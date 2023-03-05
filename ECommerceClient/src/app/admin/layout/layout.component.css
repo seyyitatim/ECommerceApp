@@ -1,0 +1,8 @@
+.admin-container {
+  height: 400px;
+  margin: 10px;
+  border: 1px solid #555;
+}
+.admin-sidebar{
+  width: 160px;
+}

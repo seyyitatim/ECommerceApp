@@ -1,0 +1,7 @@
+ul li {
+  position: absolute;
+  width: 100px;
+}
+.sidebar-item:hover {
+  background-color: antiquewhite;
+}
