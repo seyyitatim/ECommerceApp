@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Application.Validators.Products
 {
-    public class CreateProductValidator : AbstractValidator<VM_Create_Products>
+    public class CreateProductValidator : AbstractValidator<VM_Create_Product>
     {
         public CreateProductValidator()
         {
