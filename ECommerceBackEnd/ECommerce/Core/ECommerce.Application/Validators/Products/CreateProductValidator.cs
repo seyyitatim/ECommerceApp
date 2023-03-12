@@ -19,6 +19,20 @@ namespace ECommerce.Application.Validators.Products
                 .MaximumLength(150)
                 .MinimumLength(2)
                     .WithMessage("Lütfen ürün adını 5 ile 150 karakter arasında giriniz.");
+
+            RuleFor(p => p.Stock)
+                .NotEmpty()
+                .NotNull()
+                    .WithMessage("Lütfen stock alanını boş geçmeyiniz")
+                .Must(s => s >= 0)
+                    .WithMessage("Stock bilgisi 0 ya da 0'dan büyük olmalıdır.");
+
+            RuleFor(p => p.Price)
+                .NotEmpty()
+                .NotNull()
+                    .WithMessage("Lütfen price alanını boş geçmeyiniz")
+                .Must(p => p >= 0)
+                    .WithMessage("Price bilgisi 0 ya da 0'dan büyük olmalıdır.");
         }
     }
 }
