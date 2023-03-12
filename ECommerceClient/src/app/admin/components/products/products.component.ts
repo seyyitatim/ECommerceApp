@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from 'src/app/contracts/product';
+import { CreateProduct } from 'src/app/contracts/create_product';
 import { HttpClientService } from 'src/app/services/common/http-client.service';
+import { ProductService } from 'src/app/services/common/product.service';
 
 @Component({
   selector: 'app-products',
@@ -8,13 +9,8 @@ import { HttpClientService } from 'src/app/services/common/http-client.service';
   styleUrls: ['./products.component.css'],
 })
 export class ProductsComponent implements OnInit {
-  constructor(private httpClientService: HttpClientService) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.httpClientService
-      .get<Product[]>({
-        controller: 'products',
-      })
-      .subscribe((data) => console.log(data));
-  }
+  ngOnInit(): void {}
+
 }
