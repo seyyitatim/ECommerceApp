@@ -28,10 +28,15 @@ export class CreateComponent implements OnInit {
     product.stock = parseInt(stock.value);
     product.price = parseFloat(price.value);
 
-    this.productService.create(product, () =>
-      this.alertify.message('Ürün başarılı bir şekilde eklendi', {
-        messageType: MessageType.Success,
-      })
+    this.productService.create(
+      product,
+      () =>
+        this.alertify.message('Ürün başarılı bir şekilde eklendi', {
+          messageType: MessageType.Success,
+        }),
+      (errorMessage) => {
+        this.alertify.message(errorMessage, { messageType: MessageType.Error });
+      }
     );
   }
 }
