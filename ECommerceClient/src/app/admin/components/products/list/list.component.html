@@ -1,1 +1,35 @@
-<p>list works!</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Stock</th>
+      <th scope="col">Price</th>
+      <th scope="col">Created Date</th>
+      <th scope="col">Updated Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{ product.name }}</td>
+      <td>{{ product.stock }}</td>
+      <td>{{ product.price }}</td>
+      <td>{{ product.createDate }}</td>
+      <td>{{ product.updateDate }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="admin-pagination">
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-end">
+      <li class="page-item"><a class="page-link" (click)="before()">Previous</a></li>
+      <li
+        class="page-item"
+        *ngFor="let item of [].constructor(pageCount); let i = index"
+      >
+        <a class="page-link" (click)="getProducts(i)">{{ i + 1 }}</a>
+      </li>
+      <li class="page-item"><a class="page-link" (click)="after()">Next</a></li>
+    </ul>
+  </nav>
+</div>
