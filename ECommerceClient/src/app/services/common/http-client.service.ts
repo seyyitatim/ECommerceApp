@@ -25,7 +25,11 @@ export class HttpClientService {
   ): Observable<T> {
     let url: string = requestParameters.fullEndPoint
       ? requestParameters.fullEndPoint
-      : `${this.url(requestParameters)}${id ? `/${id}` : ''}`;
+      : `${this.url(requestParameters)}${id ? `/${id}` : ''}${
+          requestParameters.queryString
+            ? `?${requestParameters.queryString}`
+            : ''
+        }`;
 
     return this.httpClient.get<T>(url, { headers: requestParameters.headers });
   }
@@ -73,6 +77,7 @@ export class HttpClientService {
 export class RequestParameters {
   controller?: string;
   action?: string;
+  queryString?: string;
 
   headers?: HttpHeaders;
   baseUrl?: string;
