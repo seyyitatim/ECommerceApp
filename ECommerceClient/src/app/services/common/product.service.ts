@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { CreateProduct } from 'src/app/contracts/create_product';
 import { ListProduct } from 'src/app/contracts/list_product';
 import {
@@ -26,9 +26,7 @@ export class ProductService {
   ) {
     this.httpClientService.post({ controller: 'products' }, product).subscribe(
       (data) => {
-        console.log('başarılı eklendi');
         succesCallBack();
-        alert('dasda');
       },
       (errorResponse: HttpErrorResponse) => {
         const _error: Array<{ key: string; value: Array<string> }> =
@@ -68,5 +66,16 @@ export class ProductService {
       );
 
     return await promisedData;
+  }
+
+  async delete(id: string) {
+    const deleteObservable: Observable<any> = this.httpClientService.delete(
+      {
+        controller: 'products',
+      },
+      id
+    );
+
+    await firstValueFrom(deleteObservable);
   }
 }

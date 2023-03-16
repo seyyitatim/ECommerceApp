@@ -41,8 +41,12 @@ export class ListComponent extends BaseComponent implements OnInit {
     await this.getProducts(this.currencyPage);
   }
   async before() {
-    if (this.currencyPage - 1 >= 0) return;
+    if (this.currencyPage - 1 < 0) return;
     this.currencyPage -= 1;
     await this.getProducts(this.currencyPage);
+  }
+  async delete(id: string) {
+    await this.productService.delete(id);
+    this.getProducts(this.currencyPage);
   }
 }
