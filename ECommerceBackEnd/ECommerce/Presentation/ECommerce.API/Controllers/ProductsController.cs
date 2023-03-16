@@ -1,9 +1,15 @@
-﻿using ECommerce.Application.Repositories.ProductRepository;
+﻿using ECommerce.Application.Features.Commands.CreateProduct;
+using ECommerce.Application.Features.Commands.Product.CreateProduct;
+using ECommerce.Application.Features.Queries.GetAllProduct;
+using ECommerce.Application.Features.Queries.Product.GetAllProduct;
+using ECommerce.Application.Repositories.ProductRepository;
 using ECommerce.Application.RequestParameters;
 using ECommerce.Application.ViewModels;
 using ECommerce.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace ECommerce.API.Controllers
 {
@@ -13,31 +19,19 @@ namespace ECommerce.API.Controllers
     {
         readonly private IProductWriteRepository _productWriteRepository;
         readonly private IProductReadRepository _productReadRepository;
+        readonly IMediator _mediator;
 
-        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository)
+        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IMediator mediator)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] Pagination pagination)
+        public async Task<IActionResult> Get([FromQuery] GetAllProductQueryRequest request)
         {
-            var pageCount = Math.Ceiling(Convert.ToDecimal(_productReadRepository.GetAll().Count()) / Convert.ToDecimal(pagination.Size));
-            var products = _productReadRepository.GetAll().Skip(pagination.Page * pagination.Size).Take(pagination.Size).Select(p => new
-            {
-                p.Id,
-                p.Name,
-                p.Stock,
-                p.Price,
-                p.CreateDate,
-                p.UpdateDate
-            });
-            return Ok(new
-            {
-                pageCount,
-                products
-            });
+            return Ok(await _mediator.Send(request));
         }
 
         [HttpGet("{id}")]
@@ -47,17 +41,10 @@ namespace ECommerce.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(VM_Create_Product request)
+        public async Task<IActionResult> Post(CreateProductCommandRequest request)
         {
-            Product product = new Product()
-            {
-                Name = request.Name,
-                Price = request.Price,
-                Stock = request.Stock
-            };
-            await _productWriteRepository.AddAsync(product);
-            await _productWriteRepository.SaveAsync();
-            return Ok();
+            await _mediator.Send(request);
+            return StatusCode((int)HttpStatusCode.Created);
         }
 
         [HttpPut]
